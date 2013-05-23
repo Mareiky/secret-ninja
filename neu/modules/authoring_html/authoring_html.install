@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function authoring_html_install() {
+  $format = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", 'Authoring HTML'));
+
+  if (FALSE !== $format) {
+    drupal_set_message(t('An input format with the name %name (format id: @id) already exists. It was not possible to create a new input format.', array(
+      '%name' => 'Authoring HTML',
+      '@id'   => $format,
+    )), 'warning');
+
+    return FALSE;
+  }
+
+  db_query("INSERT INTO {filter_formats} (name, cache) VALUES ('%s', %d)", 'Authoring HTML', 1);
+  $authoring_html_format = db_last_insert_id('filter_formats', 'format');
+
+  // Uses HTML Purifier filter (advanced, delta = 1).
+  db_query("INSERT INTO {filters} (format, module, delta, weight) VALUES (%d, '%s', %d, %d)", $authoring_html_format, 'htmlpurifier', 1, 10);
+  variable_set('authoring_html_format', $authoring_html_format);
+
+  // Configure the filter.
+  module_load_include('inc', 'authoring_html', 'includes/htmlpurifier');
+  authoring_html_htmlpurifier_save_config($authoring_html_format);
+
+  // Greetings!
+  drupal_set_message(t('An input format with the name !format_name_link was created.', array(
+    '!format_name_link' => l('Authoring HTML', 'admin/settings/filters/' . $authoring_html_format)
+  )), 'warning');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function authoring_html_uninstall() {
+  $authoring_html_format = variable_get('authoring_html_format', NULL);
+
+  if (NULL === $authoring_html_format) {
+    return;
+  }
+
+  db_query("DELETE FROM {filters} WHERE format = %d", $authoring_html_format);
+  db_query("DELETE FROM {filter_formats} WHERE format = %d", $authoring_html_format);
+  variable_del('authoring_html_format');
+}

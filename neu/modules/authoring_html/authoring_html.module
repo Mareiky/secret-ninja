@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * Implementation of hook_autoload_info().
+ */
+function authoring_html_autoload_info() {
+  return array(
+    'AuthoringHtml_Config' => array(
+      'file' => 'classes/Config.php'
+    ),
+    'AuthoringHtml_Filter_WhitelistedExternalFilter' => array(
+      'file' => 'classes/Filter/WhitelistedExternalFilter.php'
+    ),
+    'AuthoringHtml_Filter_Iframe' => array(
+      'file' => 'classes/Filter/Iframe.php'
+    ),
+    'AuthoringHtml_Filter_Script' => array(
+      'file' => 'classes/Filter/Script.php'
+    ),
+  );
+}

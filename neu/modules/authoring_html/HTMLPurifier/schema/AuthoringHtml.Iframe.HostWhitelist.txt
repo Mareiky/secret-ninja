@@ -1,0 +1,6 @@
+AuthoringHtml.Iframe.HostWhitelist
+TYPE: list
+DEFAULT: array()
+VERSION: 1.0.0
+--DESCRIPTION--
+<p>This directive can be used to configure the AuthoringHtml_Filter_Iframe host whitelist.</p>

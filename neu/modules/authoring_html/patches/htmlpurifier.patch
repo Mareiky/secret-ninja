@@ -1,0 +1,43 @@
+diff --git htmlpurifier.module htmlpurifier.module
+index 837279f..117591b 100644
+--- htmlpurifier.module
++++ htmlpurifier.module
+@@ -226,6 +226,9 @@ function _htmlpurifier_process($text, $format, $cache = TRUE) {
+   _htmlpurifier_load();
+   $config = _htmlpurifier_get_config($format);
+ 
++  // Disable the auto finalize feature.
++  $config->autoFinalize = FALSE;
++
+   // If ExtractStyleBlocks is enabled, we'll need to do a bit more for CSSTidy
+   $config_extractstyleblocks = $config->get('Filter.ExtractStyleBlocks');
+ 
+@@ -234,6 +237,19 @@ function _htmlpurifier_process($text, $format, $cache = TRUE) {
+     _htmlpurifier_load_csstidy();
+   }
+ 
++  // Creates the objects for each filter.
++  $custom_filters = $config->get('Filter.Custom');
++  if (!empty($custom_filters)) {
++    $filterObjects = array();
++    foreach ($custom_filters as $filter) {
++      $filterObjects[] = new $filter();
++    }
++    $config->set('Filter.Custom', $filterObjects);
++  }
++
++  // Restore the auto finalize function.
++  $config->autoFinalize = TRUE;
++
+   $purifier = new HTMLPurifier($config);
+   $ret = $purifier->purify($text);
+ 
+@@ -304,7 +320,7 @@ function _htmlpurifier_load() {
+  */
+ function _htmlpurifier_get_config($format) {
+   
+-  $config = HTMLPurifier_Config::createDefault();
++  $config = AuthoringHtml_Config::createDefault();
+   
+   $config->set('AutoFormat.AutoParagraph', TRUE);
+   $config->set('AutoFormat.Linkify', TRUE);

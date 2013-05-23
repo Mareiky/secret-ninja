@@ -1,0 +1,27 @@
+INSTALL
+==
+
+1. This module depends on the HTMLPurifier and Autoload modules:
+
+ - HTMLPurifier module: http://drupal.org/project/htmlpurifier
+ - Autoload module: http://drupal.org/project/autoload
+
+2. Install the module. Detailed instructions can be found at:
+   http://drupal.org/documentation/install/modules-themes/modules-5-6
+
+3. Patch the module HTMLPurifier with the patch (compatible with the 6.x-2.4
+   release) `patches/htmlpurifier.patch`. If the module is not patched, it will
+   not possible to customize the HTMLPurifier library at
+   `admin/settings/filters/INPUT_FORMAT_ID/configure`.
+
+    $ cd /path/to/modules/htmlpurifier
+    $ patch -p0 --verbose < /path/to/modules/authoring_html/patches/htmlpurifier.patch
+
+4. Optional. Regenerate the HTMLPurifier library configuration schema (you will
+   need this if you want to add more hosts to the whitelist of hosts that the
+   `iframe` and `script` tags will can refer):
+
+   $ php /path/to/libraries/htmlpurifier/maintenance/generate-schema-cache.php \
+   /path/to/modules/authoring_html/HTMLPurifier/schema
+
+5. Read the REAME.txt file for more details for the steps 3 and 4.

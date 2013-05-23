@@ -1,0 +1,14 @@
+core = "6.x"
+name = "Authoring HTML"
+dependencies[] = "autoload"
+dependencies[] = "htmlpurifier"
+description = "Create an input format suitable for WYSIWYG editors usage."
+package = "Input formats"
+php = "5.2"
+
+; Information added by drupal.org packaging script on 2012-06-06
+version = "6.x-1.1"
+core = "6.x"
+project = "authoring_html"
+datestamp = "1338974173"
+

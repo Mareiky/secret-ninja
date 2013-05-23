@@ -1,0 +1,34 @@
+/*
+*
+*
+*	links
+*
+*
+*/
+
+
+
+
+a:hover {color:#163e55;}
+a:active {color:#79b63e;} 
+a:focus{outline: none;}
+a img{border: none;}
+
+#site-title a:hover,
+#site-slogan a:hover,
+.block h2.title a{
+	text-decoration:none;
+}
+
+#block-menu-menu-fachbereiche a{
+	color: #78b63d;
+	text-decoration: none;
+	list-style-type: none;
+	font-family:klavika;
+}
+
+.outsidecontent#topBar a{
+	color:white;
+}
+
+
